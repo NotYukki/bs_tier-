@@ -1,50 +1,59 @@
-import tkinter as tk
-from tkinter import messagebox
-import main  # ← on importe main.py
+import main
 
-def lancer_tri_movement():
-    main.trier_movement_speed()
-    messagebox.showinfo("trop fort gg", "Tri par Mv Speed fini !")
+def menu():
+    while True:
+        print("\n--- MENU DE GESTION DES BRAWLERS ---")
+        print("1. Trier par Movement Speed")
+        print("2. Trier par Attack Damage")
+        print("3. Trier par Max Health")
+        print("4. Trier par Brawler")
+        print("5. Trier par Rarity")
+        print("6. Trier par Tier")
+        print("7. Trier par Attack Range")
+        print("8. Trier par Projectile Speed")
+        print("9. Ajouter un Brawler")
+        print("10. Supprimer un Brawler")
+        print("11. Quitter")
+        print("12. Rechercher un perso")
 
-def lancer_tri_attack():
-    main.trier_attack_damage()
-    messagebox.showinfo("Succès", "Tri par Damage terminé !")
+        choix = input("Entrez votre choix : ")
 
-def lancer_tri_health():
-    main.trier_max_health()
-    messagebox.showinfo("Succès", "Tri par Vie terminé !")
+        if choix == "1":
+            main.trier_movement_speed()
+            print("Tri par Movement Speed terminé.")
+        elif choix == "2":
+            main.trier_attack_damage()
+            print("Tri par Attack Damage terminé.")
+        elif choix == "3":
+            main.trier_max_health()
+            print("Tri par Max Health terminé.")
+        elif choix == "4":
+            main.trier_brawler()
+            print("Tri par Brawler terminé.")
+        elif choix == "5":
+            main.trier_rarity()
+            print("Tri par Rarity terminé.")
+        elif choix == "6":
+            main.trier_tier()
+            print("Tri par Tier terminé.")
+        elif choix == "7":
+            main.trier_attack_range()
+            print("Tri par Attack Range terminé.")
+        elif choix == "8":
+            main.trier_projectile_speed()
+            print("Tri par Projectile Speed terminé.")
+        elif choix == "9":
+            main.ajouter_brawler()
+        elif choix == "10":
+            main.supprimer_brawler()
+        elif choix == "12":
+            main.rechercher_brawler()
+        elif choix == "11":
+            print("Au revoir !")
+            print("Merci d'avoir utilisé notre programme de tri des Brawlers.")
+            break
+        else:
+            print("Choix invalide. Veuillez réessayer.")
 
-def lancer_tri_brawler():
-    main.trier_brawler()
-    messagebox.showinfo("Succès", "Tri par nom terminé !")
-
-def lancer_tri_rarity():
-    main.trier_rarity()
-    messagebox.showinfo("Succès", "Tri par rareté terminé !")
-
-def lancer_tri_tier():
-    main.trier_tier()
-    messagebox.showinfo("Succès", "Tri par tier terminé !")
-
-def lancer_tri_range():
-    main.trier_attack_range()
-    messagebox.showinfo("Succès", "Tri par range terminé !")
-
-def lancer_tri_projectile():
-    main.trier_projectile_speed()
-    messagebox.showinfo("Succès", "Tri par projectile speed terminé !")
-
-fenetre = tk.Tk()
-fenetre.title("Tri Brawlers - IMH")
-fenetre.geometry("350x400")
-
-tk.Button(fenetre, text="1. Trier par Movement Speed", command=lancer_tri_movement).pack(pady=5)
-tk.Button(fenetre, text="2. Trier par Attack Damage", command=lancer_tri_attack).pack(pady=5)
-tk.Button(fenetre, text="3. Trier par Max Health", command=lancer_tri_health).pack(pady=5)
-tk.Button(fenetre, text="4. Trier par Brawler", command=lancer_tri_brawler).pack(pady=5)
-tk.Button(fenetre, text="5. Trier par Rarity", command=lancer_tri_rarity).pack(pady=5)
-tk.Button(fenetre, text="6. Trier par Tier", command=lancer_tri_tier).pack(pady=5)
-tk.Button(fenetre, text="7. Trier par Attack Range", command=lancer_tri_range).pack(pady=5)
-tk.Button(fenetre, text="8. Trier par Projectile Speed", command=lancer_tri_projectile).pack(pady=5)
-
-fenetre.mainloop()
+if __name__ == "__main__":
+    menu()
