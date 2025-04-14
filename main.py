@@ -18,7 +18,36 @@ def sauvegarder_brawlers(brawlers, nom_fichier):
         writer.writeheader()
         writer.writerows(brawlers)
 
-# Tri par Brawler (alphabétique)
+def ajouter_brawler():
+    brawler = {}
+    brawler["Brawler"] = input("Nom du Brawler : ")
+    brawler["Rarity"] = input("Rareté : ")
+    brawler["Tier"] = input("Tier : ")
+    brawler["Movement Speed"] = input("Vitesse de déplacement : ")
+    brawler["Max health"] = input("Santé maximale : ")
+    brawler["Attack Range"] = input("Portée d'attaque : ")
+    brawler["Attack Damage"] = input("Dégâts d'attaque : ")
+    brawler["Projectile Speed"] = input("Vitesse du projectile : ")
+
+    try:
+        with open("info.csv", "a", newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=brawler.keys())
+            writer.writerow(brawler)
+        print("Brawler ajouté avec succès.")
+    except Exception as e:
+        print("Erreur lors de l'ajout :", e)
+
+def supprimer_brawler():
+    nom = input("Nom du Brawler à supprimer : ").strip().lower()
+    brawlers = charger_brawlers()
+    nouveaux = [b for b in brawlers if b["Brawler"].strip().lower() != nom]
+
+    if len(nouveaux) == len(brawlers):
+        print("Aucun Brawler trouvé avec ce nom.")
+    else:
+        sauvegarder_brawlers(nouveaux, "info.csv")
+        print("Brawler supprimé avec succès.")
+
 def trier_brawler():
     brawlers = charger_brawlers()
     for i in range(1, len(brawlers)):
@@ -31,7 +60,6 @@ def trier_brawler():
         brawlers[j + 1] = b
     sauvegarder_brawlers(brawlers, "trie_Brawler.csv")
 
-# Tri par Rarity (alphabétique)
 def trier_rarity():
     brawlers = charger_brawlers()
     for i in range(1, len(brawlers)):
@@ -44,7 +72,6 @@ def trier_rarity():
         brawlers[j + 1] = b
     sauvegarder_brawlers(brawlers, "trie_Rarity.csv")
 
-# Tri par Tier (alphabétique)
 def trier_tier():
     brawlers = charger_brawlers()
     for i in range(1, len(brawlers)):
@@ -117,3 +144,17 @@ def trier_projectile_speed():
             j -= 1
         brawlers[j + 1] = b
     sauvegarder_brawlers(brawlers, "trie_Projectile_Speed.csv")
+    
+def rechercher_brawler():
+    nom = input("Nom du Brawler à rechercher : ").strip().lower()
+    brawlers = charger_brawlers()
+    trouve = False
+    for b in brawlers:
+        if b["Brawler"].strip().lower() == nom:
+            print("\n--- Brawler trouvé ---")
+            for cle, val in b.items():
+                print(f"{cle} : {val}")
+            trouve = True
+            break
+    if not trouve:
+        print("Aucun Brawler trouvé avec ce nom.")
