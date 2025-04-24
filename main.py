@@ -1,17 +1,45 @@
 import csv
 
+
 def charger_brawlers():
-    with open("info.csv", newline='') as fichier:
+    "Cette fonction est une dérivé de  notre fonction de base qui corrige les erreurs de 0 et O car on en avait bcp trop" 
+    brawlers = []
+    colonnes_numeriques = ["Movement Speed", "Max health", "Attack Range", "Attack Damage", "Projectile Speed"]
+    
+    with open("info.csv", newline='', encoding='utf-8') as fichier:
         lecteur = csv.DictReader(fichier)
-        brawlers = list(lecteur)
-    for i in range(len(brawlers)):
-        propre = {}
-        for cle, val in brawlers[i].items():
-            propre[cle.strip()] = val.strip()
-        brawlers[i] = propre
+        
+        for index, ligne in enumerate(lecteur, start=2):  # start=2 pour sauter l'en-tête (ligne 1)
+            propre = {}
+            ligne_valide = True
+
+            for cle, val in ligne.items():
+                if val is None:
+                    print(f"[Erreur] Valeur manquante ligne {index}, colonne '{cle}'")
+                    ligne_valide = False
+                    break
+
+                val = val.strip().replace('O', '0')  # Corrige les erreurs comme "52O0" → "5200"
+                if cle in colonnes_numeriques:
+                    try:
+                        propre[cle.strip()] = float(val)
+                    except ValueError:
+                        print(f"[Erreur] Conversion impossible ligne {index}, colonne '{cle}': '{val}'")
+                        ligne_valide = False
+                        break
+                else:
+                    propre[cle.strip()] = val
+
+            if ligne_valide:
+                brawlers.append(propre)
+            else:
+                print(f"[Ignorée] Ligne {index} incorrecte : {ligne}")
+
     return brawlers
 
+
 def sauvegarder_brawlers(brawlers, nom_fichier):
+    "Fonction pour sauvergarder un perso spécifique" 
     with open(nom_fichier, "w", newline='') as f:
         titres = brawlers[0].keys()
         writer = csv.DictWriter(f, fieldnames=titres)
@@ -19,6 +47,7 @@ def sauvegarder_brawlers(brawlers, nom_fichier):
         writer.writerows(brawlers)
 
 def ajouter_brawler():
+    "Ajouter un perso dans le fichier csv elle demande à l'utilisateur toute les colonnes" 
     brawler = {}
     brawler["Brawler"] = input("Nom du Brawler : ")
     brawler["Rarity"] = input("Rareté : ")
@@ -38,6 +67,7 @@ def ajouter_brawler():
         print("Erreur lors de l'ajout :", e)
 
 def supprimer_brawler():
+    "suprrimer le perso mais si il n y est pas ne rien suprimer" 
     nom = input("Nom du Brawler à supprimer : ").strip().lower()
     brawlers = charger_brawlers()
     nouveaux = [b for b in brawlers if b["Brawler"].strip().lower() != nom]
@@ -49,6 +79,7 @@ def supprimer_brawler():
         print("Brawler supprimé avec succès.")
 
 def trier_brawler():
+    "Trie des perso en fonction de le ordre alphabétique"
     brawlers = charger_brawlers()
     for i in range(1, len(brawlers)):
         b = brawlers[i]
@@ -61,6 +92,7 @@ def trier_brawler():
     sauvegarder_brawlers(brawlers, "trie_Brawler.csv")
 
 def trier_rarity():
+    "trier par leur tier" 
     brawlers = charger_brawlers()
     for i in range(1, len(brawlers)):
         b = brawlers[i]
@@ -73,6 +105,7 @@ def trier_rarity():
     sauvegarder_brawlers(brawlers, "trie_Rarity.csv")
 
 def trier_tier():
+    "trier par tier list"
     brawlers = charger_brawlers()
     for i in range(1, len(brawlers)):
         b = brawlers[i]
@@ -85,6 +118,7 @@ def trier_tier():
     sauvegarder_brawlers(brawlers, "trie_Tier.csv")
 
 def trier_movement_speed():
+    "par vitesse" 
     brawlers = charger_brawlers()
     for i in range(1, len(brawlers)):
         b = brawlers[i]
