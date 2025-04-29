@@ -1,11 +1,11 @@
 import csv
-
+# + A faire c est random perso + trouver un jeu de guess quelle perso je suis et un truc pour le fun bien marrant unique pour ns" 
 def charger_brawlers():
     brawlers = []
     colonnes_numeriques = ["Movement Speed", "Max health", "Attack Range", "Attack Damage", "Projectile Speed"]
     with open("info.csv", newline='', encoding='utf-8') as fichier:
         lecteur = csv.DictReader(fichier)
-        for index, ligne in enumerate(lecteur, start=2):
+        for index, ligne in enumerate(lecteur, start=2): # c a ca reste compliquer a comprendre mais tkt 
             propre = {}
             ligne_valide = True
             for cle, val in ligne.items():
@@ -15,21 +15,21 @@ def charger_brawlers():
                 val = val.strip().replace('O', '0')
                 if cle in colonnes_numeriques:
                     try:
-                        propre[cle.strip()] = float(val)
+                        propre[cle.strip()] = float(val) 
                     except ValueError:
                         ligne_valide = False
                         break
                 else:
                     propre[cle.strip()] = val
             if ligne_valide:
-                brawlers.append(propre)
+                brawlers.append(propre) # le crane a mr propre 
     return brawlers
 
 def sauvegarder_brawlers(brawlers, nom_fichier):
     with open(nom_fichier, "w", newline='') as f:
         titres = brawlers[0].keys()
         writer = csv.DictWriter(f, fieldnames=titres)
-        writer.writeheader()
+        writer.writeheader() # ecrire 
         writer.writerows(brawlers)
 
 def ajouter_brawler():
@@ -44,17 +44,17 @@ def ajouter_brawler():
         "Projectile Speed": input("Vitesse du projectile : ")
     }
     try:
-        with open("info.csv", "a", newline='') as f:
+        with open("info.csv", "a", newline='') as f: # try c est un bon truc je te laisse voir sur webschool
             writer = csv.DictWriter(f, fieldnames=brawler.keys())
             writer.writerow(brawler)
         print("Brawler ajouté avec succès.")
-    except Exception as e:
+    except Exception as e: # probleme de fou si y a s a
         print("Erreur lors de l'ajout :", e)
 
 def supprimer_brawler():
     nom = input("Nom du Brawler à supprimer : ").strip().lower()
     brawlers = charger_brawlers()
-    nouveaux = [b for b in brawlers if b["Brawler"].strip().lower() != nom]
+    nouveaux = [b for b in brawlers if b["Brawler"].strip().lower() != nom] # thx to l ia et webschool pour trouver l idee d add un tableau par comprhésenion 
     if len(nouveaux) == len(brawlers):
         print("Aucun Brawler trouvé avec ce nom.")
     else:
@@ -62,7 +62,7 @@ def supprimer_brawler():
         print("Brawler supprimé avec succès.")
 
 def trier_brawler():
-    brawlers = charger_brawlers()
+    brawlers = charger_brawlers() # trie par insertion + selection SPAM on a qu e sa
     for i in range(1, len(brawlers)):
         valeur = brawlers[i]
         j = i - 1
