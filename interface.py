@@ -1,6 +1,7 @@
 import main
 
 def menu():
+    " Afficahge graphique qui donne tout les fonction de main.py affichage graphique imh consolle"
     while True:
         print("\n--- MENU DE GESTION DES BRAWLERS ---")
         print("1. Trier par Movement Speed")
@@ -15,6 +16,8 @@ def menu():
         print("10. Supprimer un Brawler")
         print("11. Quitter")
         print("12. Rechercher un perso")
+        print("13. Perso aléatoire")
+        print("14 jouer au quizz")
 
         choix = input("Entrez votre choix : ")
 
@@ -52,6 +55,11 @@ def menu():
             print("Au revoir !")
             print("Merci d'avoir utilisé notre programme de tri des Brawlers.")
             break
+        elif choix == "13":
+            main.brawler_aleatoire()
+        elif choix == "14":
+            main.quizz_brawler()
+
         else:
             print("Choix invalide. Veuillez réessayer.")
 
