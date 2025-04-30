@@ -1,4 +1,5 @@
 import csv
+import random
 # + A faire c est random perso + trouver un jeu de guess quelle perso je suis et un truc pour le fun bien marrant unique pour ns" 
 def charger_brawlers():
     brawlers = []
@@ -161,3 +162,39 @@ def rechercher_brawler():
             break
     if not trouve:
         print("Aucun Brawler trouvé avec ce nom.")
+
+def brawler_aleatoire():
+    brawlers = charger_brawlers()
+    if not brawlers:
+        print("Aucun Brawler trouvé.")
+        return
+    b = random.choice(brawlers)
+    print("\n--- Brawler aléatoire ---")
+    for cle, val in b.items():
+        print(f"{cle} : {val}")
+
+def quizz_brawler():
+    brawlers = charger_brawlers()
+    if not brawlers:
+        print("Aucun Brawler disponible.")
+        return
+
+    # Filtrer ceux dont le nom commence par une lettre aléatoire et qui ont une certaine rareté
+    lettres_possibles = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+    random.shuffle(lettres_possibles)
+
+    for lettre in lettres_possibles:
+        raretes = list(set(b["Rarity"] for b in brawlers))
+        random.shuffle(raretes)
+        for rarete in raretes:
+            possibles = [b for b in brawlers if b["Brawler"].strip().upper().startswith(lettre) and b["Rarity"].lower() == rarete.lower()]
+            if possibles:
+                solution = random.choice(possibles)
+                print(f"\n💡 Quel Brawler commence par la lettre **{lettre}** et est de rareté **{rarete}** ?")
+                reponse = input("Ta réponse : ").strip().lower()
+                if reponse == solution["Brawler"].strip().lower():
+                    print("✅ Bonne réponse !")
+                else:
+                    print(f"❌ Mauvais ! La bonne réponse était : {solution['Brawler']}")
+                return
+    print("Pas de Brawler correspondant trouvé.")
